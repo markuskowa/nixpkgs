@@ -18,6 +18,13 @@ stdenv.mkDerivation rec {
     hash = "sha256-+NoY8YVseFyBbxc3ttFWiQuHQyy1GN8zvV1jGFjmvLg=";
   };
 
+  # Fix build with cmake4
+  patchPhase = ''
+    substituteInPlace ./CMakeLists.txt --replace-fail \
+      'make_minimum_required(VERSION 3.3 FATAL_ERROR)' \
+      'make_minimum_required(VERSION 3.10 FATAL_ERROR)'
+  '';
+
   nativeBuildInputs = [
     cmake
     wrapQtAppsHook
